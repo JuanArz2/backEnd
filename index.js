@@ -11,5 +11,9 @@ servidor.get("/", (solud, rta) => {
   });
 });
 
+servidor.get("/xx", (solud, rta) => {
+  rta.redirect(301, "https://www.jw.org/es/");
+});
+
 servidor.listen(3000);
 console.log("Servidor puerto 3000");
