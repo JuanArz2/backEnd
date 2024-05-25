@@ -4,6 +4,7 @@ import usersRouter from "../src/routes/usersRouter.js";
 
 const server = express();
 
+server.use(express.json());
 server.use("/usuarios", usersRouter);
 
 server.get("/", (req, res) => {
