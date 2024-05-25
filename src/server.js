@@ -1,6 +1,6 @@
 /* const express = require("express"); */ // Manera antigua, sin el –"type": "module",–
 import express from "express";
-import usersRouter from "./routes/usersRouter.js";
+import usersRouter from "../src/routes/usersRouter.js";
 
 const server = express();
 
