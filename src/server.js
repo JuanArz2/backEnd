@@ -1,9 +1,11 @@
 /* const express = require("express"); */ // Manera antigua, sin el –"type": "module",–
 import express from "express";
-import usersRouter from "../src/routes/usersRouter.js";
+import usersRouter from "./routes/usersRouter.js";
+import morgan from "morgan";
 
 const server = express();
 
+server.use(morgan("dev"));
 server.use(express.json());
 server.use("/usuarios", usersRouter);
 
