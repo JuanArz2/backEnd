@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "./conectDataBase.js";
 import server from "./server.js";
 

@@ -1,16 +1,22 @@
+import UserModel from "../models/userModel.js";
+
 const usersControler = {
   readAllUsers: async (req, res) => {
     try {
-      res.json({ message: "Get, read all usears" });
+      const allUsers = await UserModel.find();
+      res.json({
+        state: "Successful",
+        message: "All users readed",
+        data: allUsers,
+      });
     } catch (error) {
       console.log("Error: ", error);
-      res.json({ error: true, message: "Error al leer todos los usuarios." });
+      res.json({ error: true, message: "Error reading all users" });
     }
   },
 
   createUser: async (req, res) => {
     try {
-      console.log("Solicitud Body:", req.body);
       if (req.body.name === "") throw new Error("Empty name");
       if (req.body.lastName === "") throw new Error("Empty last name");
       if (req.body.email === "") throw new Error("Empty email");
@@ -20,63 +26,77 @@ const usersControler = {
         throw new Error("Empty password confirmation");
       if (req.body.userId === "") throw new Error("Empty id");
       if (req.body.telephone === "") throw new Error("Empty telephone");
-      if (req.body.gender === "") throw new Error("Empty gender");
+      //if (req.body.gender === "") throw new Error("Empty gender");
       if (req.body.birthday === "") throw new Error("Empty birthday");
-      if (req.body.contry === "") throw new Error("Empty contry");
-      if (req.body.photo === "") throw new Error("Empty photo");
-      res.json({ message: "Post, create single user" });
+      //if (req.body.contry === "") throw new Error("Empty contry");
+      //if (req.body.photo === "") throw new Error("Empty photo");
+
+      const newUser = new UserModel(req.body);
+      const createdUser = await newUser.save();
+      if (createdUser._id) {
+        res.json({
+          state: "Successful",
+          message: "User created",
+          id: createdUser._id,
+        });
+      }
+      console.log(createdUser);
     } catch (error) {
       console.log("Error: ", error);
-      res.json({ error: true, message: "Error al crear usuario." });
+      res.json({ error: true, message: "Error creating user" });
     }
   },
 
   readUser: async (req, res) => {
     try {
-      console.log("id: ", req.params.id);
-      res.json({ message: "Get, read single user" });
+      const readedUser = await UserModel.findById(req.params.id);
+      if (readedUser._id) {
+        res.json({
+          state: "Successful",
+          message: "User readed",
+          data: readedUser,
+        });
+      }
     } catch (error) {
       console.log("Error: ", error);
-      res.json({ error: true, message: "Error al leer un usuario." });
+      res.json({ error: true, message: "Error reading user" });
     }
   },
 
   updateUser: async (req, res) => {
     try {
-      console.log("id: ", req.params.id);
-      console.log("Solicitud Body:", req.body);
-      res.json({ message: "Put, update single user" });
+      const updatedUser = await UserModel.findByIdAndUpdate(
+        req.params.id,
+        req.body
+      );
+      if (updatedUser._id) {
+        res.json({
+          state: "Successful",
+          message: "User updated",
+          data: updatedUser,
+        });
+      }
     } catch (error) {
       console.log("Error: ", error);
-      res.json({ error: true, message: "Error al actualiar el usuario." });
+      res.json({ error: true, message: "Error updating user" });
     }
   },
 
   deleteUser: async (req, res) => {
     try {
-      console.log("id: ", req.params.id);
-      console.log("userId:", req.body.userId);
-      res.json({ message: "Delete, delete single user" });
+      const deleteUser = await UserModel.findByIdAndDelete(req.params.id);
+      if (deleteUser._id) {
+        res.json({
+          state: "Successful",
+          message: "User deleted",
+          data: null,
+        });
+      }
     } catch (error) {
       console.log("Error: ", error);
-      res.json({ error: true, message: "Error al eliminar el usuario." });
+      res.json({ error: true, message: "Error deleating user" });
     }
   },
 };
 
 export default usersControler;
-
-/* const user = {
-  name: "Juan",
-  lastName: "Ariza",
-  email: "juan@ariza.com",
-  userName: "juanArz2",
-  password: "xx22",
-  confirmPassword: "xx22",
-  userId: "123567890",
-  telephone: "0001110000",
-  gender: "male",
-  birthday: "dd.mm.yy",
-  contry: "COL",
-  photo: "./assets/imgs/juanArizaImg.jpeg",
-}; */

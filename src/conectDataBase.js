@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 
-mongoose // Promesa, async code. */
-  .connect(
-    "mongodb+srv://JuanArz2:...@juanarz2cluster.mvlnjui.mongodb.net/?retryWrites=true&w=majority&appName=JuanArz2Cluster"
-  )
+/* Promesa, async code. */ mongoose
+  .connect(process.env.MONGODB_ATLAS_URI)
   .then((data) => {
     console.log("Database is conected");
   })
