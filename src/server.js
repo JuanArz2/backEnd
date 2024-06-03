@@ -3,7 +3,7 @@ import express from "express";
 import usersRouter from "./routes/usersRouter.js";
 import morgan from "morgan";
 
-const server = express();
+const server = express(); //llamamos el server que nos aporta express
 
 server.use(morgan("dev"));
 server.use(express.json());
